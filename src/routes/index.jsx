@@ -2,22 +2,31 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
-import App from "../App"; // Importaremos o App como layout principal
+import App from "../App";
+
+// 1. Importe os novos componentes
+import ProtectedRoute from "./ProtectedRoute";
+import DashboardPage from "../pages/organizer/DashboardPage";
+import CreateEventPage from "../pages/organizer/CreateEventPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, // O App será o elemento pai (layout)
+    element: <App />,
     children: [
+      // Rotas Públicas
+      { path: "/", element: <HomePage /> },
+      { path: "/login", element: <LoginPage /> },
+
+      // 2. Crie um grupo de Rotas Protegidas
       {
-        path: "/",
-        element: <HomePage />,
+        path: "/organizer",
+        element: <ProtectedRoute />, // Este elemento protege todas as rotas filhas
+        children: [
+          { path: "dashboard", element: <DashboardPage /> },
+          { path: "create-event", element: <CreateEventPage /> },
+        ],
       },
-      {
-        path: "/login",
-        element: <LoginPage />,
-      },
-      // ...outras rotas aqui
     ],
   },
 ]);
