@@ -1,15 +1,17 @@
 // src/App.jsx
 import { Outlet, Link } from "react-router-dom";
-import { useAuth } from "./contexts/AuthContext"; // Importe o hook
+import { useAuth } from "./contexts/AuthContext";
+import CartSummary from "./components/layout/CartSummary"; // 1. Importe o CartSummary
 
 function App() {
-  const { currentUser, signOutUser } = useAuth(); // Use o hook para pegar o usuário e a função de logout
+  const { currentUser, signOutUser } = useAuth();
 
   return (
     <div>
-      <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '20px', background: '#333', color: 'white' }}>
+      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px', background: '#333', color: 'white' }}>
         <Link to="/" style={{ color: 'white', textDecoration: 'none' }}><h1>Sistema de Ingressos</h1></Link>
-        <div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <CartSummary /> {/* 2. Adicione o componente aqui */}
           {currentUser ? (
             <>
               <span>Bem-vindo, {currentUser.email}</span>
