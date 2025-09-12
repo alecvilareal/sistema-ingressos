@@ -1,8 +1,7 @@
-// src/contexts/AuthContext.jsx
-
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { listenAuthState, signIn, signUp, signOutUser } from '../services/authService';
-import { useNavigate } from 'react-router-dom';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from '../config/firebaseConfig'; // Importa apenas o 'auth'
+import { signUp, signIn, signOutUser } from '../services/authService';
 
 // 1. Cria o Contexto
 const AuthContext = createContext();
@@ -10,29 +9,42 @@ const AuthContext = createContext();
 // 2. Cria o Provedor do Contexto
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Para saber se a autenticação inicial já carregou
+  const [userRole, setUserRole] = useState(null); // NOVO ESTADO PARA O PAPEL
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // A função 'listenAuthState' nos retorna a função de 'unsubscribe'
-    const unsubscribe = listenAuthState((user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      setLoading(false); // Marca que o carregamento inicial terminou
+
+      if (user) {
+        // Se um usuário estiver logado, busca o token para ler os custom claims.
+        user.getIdTokenResult(true).then((idTokenResult) => {
+          // Acessa o campo 'role' que definimos no backend.
+          // Se não houver 'role', assume 'cliente' como padrão.
+          const role = idTokenResult.claims.role || 'cliente';
+          setUserRole(role);
+          setLoading(false);
+        });
+      } else {
+        // Se não houver usuário, limpa o papel e finaliza o carregamento.
+        setUserRole(null);
+        setLoading(false);
+      }
     });
 
-    // Função de limpeza: será executada quando o componente for desmontado
-    return unsubscribe;
+    return unsubscribe; // Limpa o listener ao desmontar o componente
   }, []);
 
   // O valor que será fornecido para todos os componentes filhos
   const value = {
     currentUser,
+    userRole, // DISPONIBILIZA O PAPEL PARA A APLICAÇÃO
     loading,
     signIn,
     signUp,
     signOutUser,
   };
 
-  // Não renderiza nada até que o estado de autenticação seja verificado
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}
@@ -40,7 +52,7 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// 3. Cria um Hook customizado para facilitar o uso do contexto
+// 3. Hook customizado para facilitar o uso do contexto
 export const useAuth = () => {
   return useContext(AuthContext);
 };

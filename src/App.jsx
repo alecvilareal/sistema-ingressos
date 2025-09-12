@@ -3,7 +3,7 @@ import { useAuth } from "./contexts/AuthContext";
 import CartSummary from "./components/layout/CartSummary";
 
 function App() {
-  const { currentUser, signOutUser } = useAuth();
+  const { currentUser, userRole, signOutUser } = useAuth();
 
   // Função para lidar com o logout de forma segura
   const handleSignOut = async () => {
@@ -42,7 +42,7 @@ function App() {
                 Painel do Organizador
               </Link>
               <span style={{ borderLeft: '1px solid #7f8c8d', paddingLeft: '20px' }}>
-                Olá, {currentUser.email}
+                Olá, {currentUser.email} **(Papel: {userRole})**
               </span>
               <button 
                 onClick={handleSignOut} 

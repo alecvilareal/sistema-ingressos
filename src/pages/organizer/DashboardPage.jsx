@@ -45,6 +45,9 @@ const DashboardPage = () => {
          <Link to="/organizer/create-event">
             <Button>Criar Novo Evento</Button>
         </Link>
+        <Link to="/organizer/check-in">
+          <Button style={{ background: '#17a2b8' }}>Fazer Check-in</Button>
+        </Link>
       </div>
 
       <div style={{ marginTop: '30px' }}>

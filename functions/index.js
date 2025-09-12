@@ -12,6 +12,10 @@ setGlobalOptions({ region: "southamerica-east1" });
 // Carrega e exporta as funções dos seus arquivos separados
 const { createPaymentPreference } = require("./src/handlers/createPaymentPreference");
 const { paymentWebhook } = require("./src/handlers/paymentWebhook");
+const { validateTicket } = require("./src/handlers/validateTicket");
+const { addAdminRole } = require("./src/handlers/_addAdminRole_temp"); 
 
 exports.createPaymentPreference = createPaymentPreference;
 exports.paymentWebhook = paymentWebhook;
+exports.validateTicket = validateTicket; // E esta linha
+exports.addAdminRole = addAdminRole;
