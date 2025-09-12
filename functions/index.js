@@ -14,8 +14,10 @@ const { createPaymentPreference } = require("./src/handlers/createPaymentPrefere
 const { paymentWebhook } = require("./src/handlers/paymentWebhook");
 const { validateTicket } = require("./src/handlers/validateTicket");
 const { addAdminRole } = require("./src/handlers/_addAdminRole_temp"); 
+const { listUsers } = require("./src/handlers/listUsers");
 
 exports.createPaymentPreference = createPaymentPreference;
 exports.paymentWebhook = paymentWebhook;
 exports.validateTicket = validateTicket; // E esta linha
 exports.addAdminRole = addAdminRole;
+exports.listUsers = listUsers;

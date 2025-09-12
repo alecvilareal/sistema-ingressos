@@ -16,10 +16,7 @@ import DashboardPage from "../pages/organizer/DashboardPage";
 import CreateEventPage from "../pages/organizer/CreateEventPage";
 import ManageEventPage from "../pages/organizer/ManageEventPage";
 import CheckInPage from "../pages/organizer/CheckInPage";
-
-// (Opcional, mas recomendado) Crie uma página placeholder para o painel de admin
-const AdminUsersPage = () => <div>Página de Gestão de Usuários (Admin)</div>;
-
+import AdminUsersPage from '../pages/admin/AdminUsersPage';
 
 const router = createBrowserRouter([
   {

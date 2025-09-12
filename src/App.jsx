@@ -5,11 +5,9 @@ import CartSummary from "./components/layout/CartSummary";
 function App() {
   const { currentUser, userRole, signOutUser } = useAuth();
 
-  // Função para lidar com o logout de forma segura
   const handleSignOut = async () => {
     try {
       await signOutUser();
-      // O redirecionamento pode ser tratado por rotas protegidas ou um hook de navegação
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
     }
@@ -22,7 +20,7 @@ function App() {
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: '1rem 2rem',
-        background: '#2c3e50', // Um tom de azul escuro
+        background: '#2c3e50',
         color: 'white',
         boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
       }}>
@@ -35,6 +33,13 @@ function App() {
           
           {currentUser ? (
             <>
+              {/* Link do Admin, visível apenas se o papel for 'admin' */}
+              {userRole === 'admin' && (
+                <Link to="/admin/users" style={{ color: '#f1c40f', fontWeight: 'bold', textDecoration: 'none' }}>
+                  Admin
+                </Link>
+              )}
+
               <Link to="/my-tickets" style={{ color: 'white', textDecoration: 'none' }}>
                 Meus Ingressos
               </Link>
@@ -42,7 +47,7 @@ function App() {
                 Painel do Organizador
               </Link>
               <span style={{ borderLeft: '1px solid #7f8c8d', paddingLeft: '20px' }}>
-                Olá, {currentUser.email} **(Papel: {userRole})**
+                Olá, {currentUser.email} (Papel: {userRole})
               </span>
               <button 
                 onClick={handleSignOut} 
@@ -67,10 +72,9 @@ function App() {
       </nav>
 
       <main style={{ padding: '2rem' }}>
-        <Outlet /> {/* As páginas (HomePage, LoginPage, etc.) serão renderizadas aqui */}
+        <Outlet />
       </main>
       
-      {/* Exemplo de um rodapé simples */}
       <footer style={{
         textAlign: 'center',
         padding: '1rem',
