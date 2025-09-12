@@ -33,13 +33,15 @@ function App() {
           
           {currentUser ? (
             <>
-              {/* Link do Admin, visível apenas se o papel for 'admin' */}
+              {/* --- LINK DE ADMIN (Temporariamente desativado) --- */}
+              {/*
               {userRole === 'admin' && (
                 <Link to="/admin/users" style={{ color: '#f1c40f', fontWeight: 'bold', textDecoration: 'none' }}>
                   Admin
                 </Link>
               )}
-
+              */}
+              
               <Link to="/my-tickets" style={{ color: 'white', textDecoration: 'none' }}>
                 Meus Ingressos
               </Link>
@@ -47,7 +49,7 @@ function App() {
                 Painel do Organizador
               </Link>
               <span style={{ borderLeft: '1px solid #7f8c8d', paddingLeft: '20px' }}>
-                Olá, {currentUser.email} (Papel: {userRole})
+                Olá, {currentUser.email}
               </span>
               <button 
                 onClick={handleSignOut} 

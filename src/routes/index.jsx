@@ -8,7 +8,7 @@ import PaymentSuccessPage from "../pages/PaymentSuccessPage";
 import PaymentFailurePage from "../pages/PaymentFailurePage";
 import MyTicketsPage from "../pages/MyTicketsPage";
 
-// Importa o novo componente de rota
+// Importa o componente de rota por papel
 import RoleBasedRoute from "./RoleBasedRoute";
 
 // Importa as páginas do organizador
@@ -16,7 +16,10 @@ import DashboardPage from "../pages/organizer/DashboardPage";
 import CreateEventPage from "../pages/organizer/CreateEventPage";
 import ManageEventPage from "../pages/organizer/ManageEventPage";
 import CheckInPage from "../pages/organizer/CheckInPage";
-import AdminUsersPage from '../pages/admin/AdminUsersPage';
+
+// A página de admin pode continuar a existir, mas a rota para ela está desativada
+import AdminUsersPage from "../pages/admin/AdminUsersPage";
+
 
 const router = createBrowserRouter([
   {
@@ -34,14 +37,12 @@ const router = createBrowserRouter([
         children: [
           { path: "/my-tickets", element: <MyTicketsPage /> },
           { path: "/checkout", element: <CheckoutPage /> },
-          // As páginas de status não precisam de ser protegidas
           { path: "/payment-success", element: <PaymentSuccessPage /> },
           { path: "/payment-failure", element: <PaymentFailurePage /> },
         ]
       },
 
       // --- ROTAS DE ORGANIZADOR (PROMOTOR, FUNCIONÁRIO, ADMIN) ---
-      // Vamos assumir que o painel é para todos os tipos de staff por agora
       {
         element: <RoleBasedRoute allowedRoles={['admin', 'promoter', 'funcionario']} />,
         children: [
@@ -59,14 +60,14 @@ const router = createBrowserRouter([
         ]
       },
 
-      // --- ROTAS EXCLUSIVAS DE ADMIN ---
-      {
+      // --- ROTAS EXCLUSIVAS DE ADMIN (Temporariamente desativadas) ---
+      /* {
         element: <RoleBasedRoute allowedRoles={['admin']} />,
         children: [
             { path: "/admin/users", element: <AdminUsersPage /> },
-            // Outras rotas de admin aqui
         ]
       },
+      */
     ],
   },
 ]);
