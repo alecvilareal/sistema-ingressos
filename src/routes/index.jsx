@@ -1,71 +1,82 @@
-// src/routes/index.jsx
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-// Importação do Layout Principal e Rotas de Proteção
+// Componente Principal de Layout
 import App from "../App";
+
+// Componente de Rota Protegida
 import ProtectedRoute from "./ProtectedRoute";
 
-// Importação das Páginas Públicas
+// Páginas Públicas
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import EventDetailPage from "../pages/EventDetailPage";
 import CheckoutPage from "../pages/CheckoutPage";
-import PaymentSuccessPage from '../pages/PaymentSuccessPage'; // 1. Importe
-import PaymentFailurePage from '../pages/PaymentFailurePage'; // 2. Importe
+import PaymentSuccessPage from "../pages/PaymentSuccessPage";
+import PaymentFailurePage from "../pages/PaymentFailurePage";
 
-// Importação das Páginas do Organizador (Protegidas)
+// Páginas Protegidas do Organizador
 import DashboardPage from "../pages/organizer/DashboardPage";
 import CreateEventPage from "../pages/organizer/CreateEventPage";
 import ManageEventPage from "../pages/organizer/ManageEventPage";
 
+// Páginas Protegidas do Cliente
+import MyTicketsPage from "../pages/MyTicketsPage";
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, // App.jsx serve como o layout principal para todas as páginas
+    element: <App />,
     children: [
       // --- Rotas Públicas ---
-      {
-        path: "/",
-        element: <HomePage />,
+      { 
+        path: "/", 
+        element: <HomePage /> 
       },
-      {
-        path: "/login",
-        element: <LoginPage />,
+      { 
+        path: "/login", 
+        element: <LoginPage /> 
       },
-      {
-        path: "/event/:eventId", // Rota dinâmica para detalhes do evento
-        element: <EventDetailPage />,
+      { 
+        path: "/event/:eventId", 
+        element: <EventDetailPage /> 
       },
-      {
-        path: "/checkout",
-        element: <CheckoutPage />,
+      { 
+        path: "/checkout", 
+        element: <CheckoutPage /> 
       },
-      { path: "/payment-success",
-        element: <PaymentSuccessPage /> },
+      { 
+        path: "/payment-success", 
+        element: <PaymentSuccessPage /> 
+      },
+      { 
+        path: "/payment-failure", 
+        element: <PaymentFailurePage /> 
+      },
 
-      { path: "/payment-failure",
-        element: <PaymentFailurePage /> },
-      
-      // --- Rotas Protegidas para Organizadores ---
+      // --- Rotas Protegidas ---
       {
-        path: "/organizer",
         element: <ProtectedRoute />, // Este componente protege todas as rotas filhas
         children: [
-          {
-            path: "dashboard", // Acessível em /organizer/dashboard
-            element: <DashboardPage />,
+          // Rotas do Organizador
+          { 
+            path: "/organizer/dashboard", 
+            element: <DashboardPage /> 
           },
-          {
-            path: "create-event", // Acessível em /organizer/create-event
-            element: <CreateEventPage />,
+          { 
+            path: "/organizer/create-event", 
+            element: <CreateEventPage /> 
           },
-          {
-            path: "manage-event/:eventId", // Rota dinâmica para gerenciar um evento específico
-            element: <ManageEventPage />,
+          { 
+            path: "/organizer/manage-event/:eventId", 
+            element: <ManageEventPage /> 
           },
-        ],
-      },
+          // Rota do Cliente
+          {
+            path: "/my-tickets",
+            element: <MyTicketsPage />
+          }
+        ]
+      }
     ],
   },
 ]);
