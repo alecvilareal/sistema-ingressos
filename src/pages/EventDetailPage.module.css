@@ -1,0 +1,93 @@
+/* src/pages/EventDetailPage.module.css */
+
+.pageContainer {
+  max-width: 800px;
+  margin: 2rem auto;
+  background-color: var(--cor-branca);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden; /* Garante que a imagem não "vaze" dos cantos arredondados */
+}
+
+.bannerImage {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.content {
+  padding: 2rem;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+}
+
+.metaInfo {
+  display: flex;
+  gap: 1.5rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.sectionTitle {
+  border-bottom: 2px solid var(--cor-cinza-claro);
+  padding-bottom: 0.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.description {
+  white-space: pre-wrap; /* Mantém as quebras de linha do texto original */
+  line-height: 1.7;
+}
+
+.ticketLot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s;
+}
+
+.ticketLot:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.lotInfo p {
+  margin: 0;
+}
+
+.lotName {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.lotPrice {
+  color: var(--cor-secundaria);
+  font-weight: bold;
+}
+
+.lotActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.quantityInput {
+  width: 70px;
+  text-align: center;
+  padding: 8px;
+}
+
+.loading, .error {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 3rem;
+}

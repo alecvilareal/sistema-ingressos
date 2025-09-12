@@ -1,0 +1,126 @@
+/* src/pages/CheckoutPage.module.css */
+
+.checkoutContainer {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--cor-branca);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.emptyCart {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--cor-cinza-claro);
+}
+
+.itemDetails p {
+  margin: 0;
+}
+
+.itemName {
+  font-weight: bold;
+}
+
+.itemMeta {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.removeButton {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.removeButton:hover {
+  background-color: #c0392b;
+}
+
+.couponSection {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.couponForm {
+  display: flex;
+  gap: 1rem;
+}
+
+.couponSuccess {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.couponError {
+  color: #e74c3c;
+  margin-top: 0.5rem;
+}
+
+.summary {
+  text-align: right;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+}
+
+.summary p {
+  margin: 0.5rem 0;
+}
+
+.discountText {
+  color: #27ae60;
+}
+
+.total {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--cor-primaria);
+  margin-top: 1rem;
+  border-top: 2px solid var(--cor-primaria);
+  padding-top: 1rem;
+}
+
+.paymentButton {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 2rem;
+  transition: background-color 0.2s;
+}
+
+.paymentButton:hover {
+  background-color: #229954;
+}
+
+.paymentButton:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}

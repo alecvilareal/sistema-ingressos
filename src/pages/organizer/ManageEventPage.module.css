@@ -1,0 +1,64 @@
+.pageContainer {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.title {
+  margin: 0;
+  color: var(--cor-primaria);
+  font-size: 2rem;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Duas colunas */
+  gap: 2rem;
+}
+
+/* Em ecrãs pequenos, fica com uma coluna */
+@media (max-width: 768px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section {
+  background-color: var(--cor-branca);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.sectionTitle {
+  margin-top: 0;
+  border-bottom: 1px solid var(--cor-cinza-claro);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.5rem;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  background-color: var(--cor-fundo);
+}

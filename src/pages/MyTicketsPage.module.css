@@ -1,0 +1,78 @@
+/* src/pages/MyTicketsPage.module.css */
+
+.pageTitle {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.ticketCard {
+  background-color: var(--cor-branca);
+  border: 1px solid var(--cor-cinza-claro);
+  border-left: 5px solid var(--cor-secundaria);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.eventName {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.statusPaid {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.statusUsed {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.qrButton {
+  margin-top: 1rem;
+  background-color: var(--cor-primaria);
+  color: var(--cor-branca);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.qrButton:hover {
+  background-color: #34495e;
+}
+
+.qrContainer {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: var(--cor-branca);
+  border: 1px dashed var(--cor-secundaria);
+  border-radius: 8px;
+  display: inline-block;
+  text-align: center;
+}
+
+.qrInstruction {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.noTicketsMessage {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #777;
+  margin-top: 3rem;
+}

@@ -1,89 +1,96 @@
+// src/pages/CheckoutPage.jsx
 import React, { useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 import { Link } from 'react-router-dom';
 import Button from '../components/common/Button';
-import { httpsCallable } from 'firebase/functions';
-import { functions } from '../config/firebaseConfig';
-import { useAuth } from '../contexts/AuthContext'; // Importe para verificar se o usuário está logado
+import Input from '../components/common/Input';
+import { applyCoupon } from '../services/couponService';
+import styles from './CheckoutPage.module.css'; // Importa os estilos
 
 const CheckoutPage = () => {
-  const { cartItems, cartTotalPrice, removeFromCart } = useCart();
-  const { currentUser } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const { cartItems, cartSubtotal, cartTotal, discount, coupon, applyCouponToCart, removeCouponFromCart, removeFromCart } = useCart();
+  const [couponCodeInput, setCouponCodeInput] = useState('');
+  const [couponError, setCouponError] = useState('');
+  // Estado para o loading do pagamento, se quisermos reativar
+  // const [loadingPayment, setLoadingPayment] = useState(false); 
 
-  const handlePayment = async () => {
-    // Verificação extra para garantir que o usuário está logado antes de pagar
-    if (!currentUser) {
-      setError("Você precisa estar logado para finalizar a compra.");
-      return;
-    }
-    
-    setLoading(true);
-    setError('');
-    
+  const handleApplyCoupon = async () => {
+    if (!couponCodeInput.trim()) return;
+    setCouponError('');
     try {
-      // Prepara a chamada para nossa cloud function 'createPaymentPreference'
-      const createPaymentPreference = httpsCallable(functions, 'createPaymentPreference');
-      const result = await createPaymentPreference({ cartItems });
-      
-      // Pega o link de pagamento da resposta e redireciona o usuário
-      const paymentUrl = result.data.init_point;
-      if (paymentUrl) {
-        window.location.href = paymentUrl;
-      } else {
-        throw new Error("Link de pagamento não recebido.");
+      const result = await applyCoupon(couponCodeInput, cartItems);
+      if (result.data.success) {
+        applyCouponToCart(result.data.couponData, result.data.discountAmount);
       }
-
-    } catch (error) {
-      console.error("Erro ao processar pagamento: ", error);
-      setError("Ocorreu um erro ao iniciar o pagamento. Por favor, tente novamente.");
-      setLoading(false);
+    } catch (err) {
+      setCouponError(err.message);
     }
   };
 
   if (cartItems.length === 0) {
     return (
-      <div style={{ textAlign: 'center', marginTop: '50px' }}>
-        <h2>Seu carrinho está vazio.</h2>
+      <div className={styles.emptyCart}>
+        <h2>O seu carrinho está vazio.</h2>
         <Link to="/">
-          <Button style={{maxWidth: '250px'}}>Ver eventos</Button>
+          <Button>Ver eventos</Button>
         </Link>
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: '800px', margin: 'auto' }}>
-      <h2>Revisão do Pedido</h2>
+    <div className={styles.checkoutContainer}>
+      <h2 className={styles.title}>Revisão do Pedido</h2>
       
       {cartItems.map(item => (
-        <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ddd', padding: '10px 0', margin: '10px 0' }}>
-          <div>
-            <p style={{ margin: 0, fontWeight: 'bold' }}>{item.name}</p>
-            <p style={{ margin: 0, color: '#555' }}>{item.quantity} x {item.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+        <div key={item.id} className={styles.item}>
+          <div className={styles.itemDetails}>
+            <p className={styles.itemName}>{item.name}</p>
+            <p className={styles.itemMeta}>{item.quantity} x {item.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
           </div>
-          <Button onClick={() => removeFromCart(item.id)} style={{ background: '#dc3545', fontSize: '0.8em' }}>
+          <button onClick={() => removeFromCart(item.id)} className={styles.removeButton}>
             Remover
-          </Button>
+          </button>
         </div>
       ))}
       
-      <div style={{ textAlign: 'right', marginTop: '20px', fontSize: '1.2em' }}>
-        <strong>Total: {cartTotalPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong>
+      <div className={styles.couponSection}>
+        {!coupon ? (
+          <>
+            <div className={styles.couponForm}>
+              <Input 
+                placeholder="Código do cupom" 
+                value={couponCodeInput}
+                onChange={(e) => setCouponCodeInput(e.target.value)}
+              />
+              <Button onClick={handleApplyCoupon}>Aplicar</Button>
+            </div>
+            {couponError && <p className={styles.couponError}>{couponError}</p>}
+          </>
+        ) : (
+          <p className={styles.couponSuccess}>
+            Cupom <strong>{coupon.code}</strong> aplicado! 
+            <button onClick={removeCouponFromCart} style={{ all: 'unset', color: 'red', cursor: 'pointer', marginLeft: '10px' }}>(Remover)</button>
+          </p>
+        )}
       </div>
       
-      {error && <p style={{ color: 'red', textAlign: 'right' }}>{error}</p>}
-      
-      <div style={{ textAlign: 'right', marginTop: '20px' }}>
-        <Button
-          onClick={handlePayment}
-          disabled={loading}
-          style={{ background: '#28a745', padding: '15px 30px', fontSize: '1.1em' }}
-        >
-          {loading ? 'Processando...' : 'Finalizar Pagamento'}
-        </Button>
+      <div className={styles.summary}>
+        <p>Subtotal: {cartSubtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+        {discount > 0 && <p className={styles.discountText}>Desconto: -{discount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>}
+        <p className={styles.total}>
+          Total: {cartTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+        </p>
       </div>
+      
+      <button 
+        className={styles.paymentButton} 
+        // onClick={handlePayment} - Reativar quando o pagamento for implementado
+        // disabled={loadingPayment}
+      >
+        {/* {loadingPayment ? 'A processar...' : 'Ir para o Pagamento'} */}
+        Ir para o Pagamento (Temporariamente desativado)
+      </button>
     </div>
   );
 };

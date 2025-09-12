@@ -1,94 +1,72 @@
-import { Outlet, Link } from "react-router-dom";
+import React from 'react';
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import CartSummary from "./components/layout/CartSummary";
 
+// Importa o nosso novo arquivo de CSS para estilizar este componente
+import './App.css'; 
+
 function App() {
   const { currentUser, userRole, signOutUser } = useAuth();
+  const navigate = useNavigate();
 
   const handleSignOut = async () => {
     try {
       await signOutUser();
+      // Redireciona o usuário para a página inicial após o logout
+      navigate('/'); 
     } catch (error) {
-      console.error("Erro ao fazer logout:", error);
+      console.error("Falha ao fazer logout", error);
+      alert("Ocorreu um erro ao sair.");
     }
   };
 
   return (
-    <div>
-      <nav style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '1rem 2rem',
-        background: '#2c3e50',
-        color: 'white',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-      }}>
-        <Link to="/" style={{ color: 'white', textDecoration: 'none', fontSize: '1.5rem', fontWeight: 'bold' }}>
-          Ingressos APP
-        </Link>
-        
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <CartSummary />
+    <div className="app-layout">
+      <nav className="main-nav">
+        <div className="container nav-content">
+          <Link to="/" className="nav-brand">
+            Ingressos APP
+          </Link>
           
-          {currentUser ? (
-            <>
-              {/* --- LINK DE ADMIN (Temporariamente desativado) --- */}
-              {/*
-              {userRole === 'admin' && (
-                <Link to="/admin/users" style={{ color: '#f1c40f', fontWeight: 'bold', textDecoration: 'none' }}>
-                  Admin
-                </Link>
-              )}
-              */}
-              
-              <Link to="/my-tickets" style={{ color: 'white', textDecoration: 'none' }}>
-                Meus Ingressos
-              </Link>
-              <Link to="/organizer/dashboard" style={{ color: 'white', textDecoration: 'none' }}>
-                Painel do Organizador
-              </Link>
-              <span style={{ borderLeft: '1px solid #7f8c8d', paddingLeft: '20px' }}>
-                Olá, {currentUser.email}
-              </span>
-              <button 
-                onClick={handleSignOut} 
-                style={{ 
-                  background: '#e74c3c', 
-                  color: 'white', 
-                  border: 'none', 
-                  padding: '8px 12px', 
-                  borderRadius: '5px', 
-                  cursor: 'pointer' 
-                }}
-              >
-                Sair
-              </button>
-            </>
-          ) : (
-            <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
-              Entrar / Cadastrar
-            </Link>
-          )}
+          <div className="nav-menu">
+            <CartSummary />
+            
+            {currentUser ? (
+              <div className="nav-user-actions">
+                {/* Links Condicionais Baseados no Papel (Role) */}
+                {userRole === 'admin' && (
+                  <Link to="/admin/users">Admin</Link>
+                )}
+                
+                {/* Assumindo que o painel é para qualquer tipo de "staff" */}
+                {(userRole === 'admin' || userRole === 'funcionario' || userRole === 'promoter') && (
+                    <Link to="/organizer/dashboard">Painel</Link>
+                )}
+
+                <Link to="/my-tickets">Meus Ingressos</Link>
+                <span>Olá, {currentUser.email}</span>
+                <button onClick={handleSignOut} className="logout-button">Sair</button>
+              </div>
+            ) : (
+              <Link to="/login">Entrar / Cadastrar</Link>
+            )}
+          </div>
         </div>
       </nav>
 
-      <main style={{ padding: '2rem' }}>
+      <main className="container main-content">
         <Outlet />
       </main>
       
-      <footer style={{
-        textAlign: 'center',
-        padding: '1rem',
-        marginTop: '2rem',
-        background: '#ecf0f1',
-        color: '#34495e',
-        borderTop: '1px solid #bdc3c7'
-      }}>
-        <p>&copy; {new Date().getFullYear()} Sistema de Ingressos. Todos os direitos reservados.</p>
+      <footer className="main-footer">
+        <div className="container">
+          <p>&copy; {new Date().getFullYear()} Sistema de Ingressos. Todos os direitos reservados.</p>
+        </div>
       </footer>
     </div>
   );
 }
 
 export default App;
+

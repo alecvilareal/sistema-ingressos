@@ -1,0 +1,70 @@
+/* src/App.css */
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-nav {
+  background-color: var(--cor-primaria);
+  color: var(--cor-branca);
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--cor-branca);
+}
+
+.nav-menu a {
+  color: var(--cor-branca);
+  margin-left: 1.5rem;
+  transition: color 0.2s;
+}
+
+.nav-menu a:hover {
+  color: var(--cor-secundaria);
+}
+
+.nav-user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.logout-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}
+
+.main-content {
+  flex-grow: 1; /* Faz o conteúdo principal crescer e empurrar o rodapé para baixo */
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.main-footer {
+  background-color: var(--cor-cinza-claro);
+  color: var(--cor-texto);
+  padding: 1.5rem 0;
+  text-align: center;
+  border-top: 1px solid #ddd;
+}
